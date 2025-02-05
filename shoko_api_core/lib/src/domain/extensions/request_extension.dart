@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bearer_token_package/bearer_token.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:shoko_api_core/src/config.dart';
-import 'package:shoko_api_core/src/data/enums/error_code.dart';
+import 'package:shoko_api_core/src/domain/utils/error_code.dart';
 import 'package:shoko_api_core/src/data/exceptions/repository_exception.dart';
 import 'package:shoko_api_core/src/data/exceptions/wrong_bearer_token_exception.dart';
 

@@ -22,8 +22,8 @@ final class Logger {
     // final now = DateTime.now();
     final out = msg.split('\n').map((l) => '\x1B[${logColor.colorCode}m$l\x1B[0m').join('\n');
 
-    developer.log('$out');
-    print('$out');
+    developer.log(out);
+    print(out);
   }
 
   void e(Object? e, {StackTrace? stackTrace, int stackTraceLength = 7}) {
@@ -33,16 +33,16 @@ final class Logger {
     //   _log('[postgress-exception] ${e.toString()}', LogColors.error);
     // } else
     if (e is Exception) {
-      _log('[exception] $e\n[stacktrace] ${trace != null ? trace : ''}', LogColors.error);
+      _log('[exception] $e\n[stacktrace] ${trace ?? ''}', LogColors.error);
     } else if (e is Error) {
-      _log('[error] $e\n[stacktrace] ${trace != null ? trace : ''}', LogColors.error);
+      _log('[error] $e\n[stacktrace] ${trace ?? ''}', LogColors.error);
     } else if (e is String) {
-      _log('[error (string)] $e\n[stacktrace] ${trace != null ? trace : ''}', LogColors.error);
+      _log('[error (string)] $e\n[stacktrace] ${trace ?? ''}', LogColors.error);
     } else {
       // If we get here, this means that error was neither an error, nor an exception and I don't
       // really know what happened.
       _log('[error (undefined)] Logger.e() fallback warning - e is undefined', LogColors.warning);
-      _log('[${e.runtimeType}] $e\n[stacktrace] ${trace != null ? trace : ''}', LogColors.error);
+      _log('[${e.runtimeType}] $e\n[stacktrace] ${trace ?? ''}', LogColors.error);
     }
   }
 

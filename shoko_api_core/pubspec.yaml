@@ -1,5 +1,5 @@
 name: shoko_api_core
-description: A starting point for Dart libraries or applications.
+description: Package for fast create api with dart_frog
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 

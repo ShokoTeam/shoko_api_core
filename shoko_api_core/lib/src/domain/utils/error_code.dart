@@ -52,19 +52,22 @@ class _ClientErrorCodes {
   const _ClientErrorCodes();
 
   ///400 - C0 - Received wrong JSON
-  final wrongJson = const ErrorCode(httpCode: 400, internalCode: 'C0', message: 'Received wrong JSON');
+  final wrongBodyJson = const ErrorCode(httpCode: 400, internalCode: 'C0', message: 'Received wrong BodyJson');
 
-  ///406 - C1 - Received broken JSON
-  final brokenJson = const ErrorCode(httpCode: 406, internalCode: 'C1', message: 'Received broken JSON');
+  ///400 - C1 - Received wrong QueryParameters
+  final wrongQueryParameters = const ErrorCode(httpCode: 400, internalCode: 'C1', message: 'Received wrong QueryParameters');
 
-  ///409 - C2 - This is already exists
-  final alreadyExists = const ErrorCode(httpCode: 409, internalCode: 'C2', message: 'This object is already exists');
+  ///406 - C2 - Received broken JSON
+  final brokenJson = const ErrorCode(httpCode: 406, internalCode: 'C2', message: 'Received broken JSON');
 
-  ///429 - C3 - Much tries
-  final muchTries = const ErrorCode(httpCode: 429, internalCode: 'C3', message: 'Much tries');
+  ///409 - C3 - This is already exists
+  final alreadyExists = const ErrorCode(httpCode: 409, internalCode: 'C3', message: 'This object is already exists');
 
-  ///404 - C4 - Not found
-  final notFound = const ErrorCode(httpCode: 404, internalCode: 'C4', message: 'Not found');
+  ///429 - C4 - Much tries
+  final muchTries = const ErrorCode(httpCode: 429, internalCode: 'C4', message: 'Much tries');
+
+  ///404 - C5 - Not found
+  final notFound = const ErrorCode(httpCode: 404, internalCode: 'C5', message: 'Not found');
 }
 
 class _ServerErrorCodes {

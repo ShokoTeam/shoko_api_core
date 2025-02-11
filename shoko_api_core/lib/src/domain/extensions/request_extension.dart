@@ -11,11 +11,11 @@ extension RequestExtension on Request {
   String get userId {
     final token = headers['Authorization']?.replaceAll('Bearer ', '') ?? "";
 
-    final parsedToken = BearerToken.getData(token, Config.instance.secret);
+    final parsedToken = BearerToken.getData(token, Config.instance.secret).result;
 
-    if (parsedToken.result == null) throw WrongBearerTokenException();
+    if (parsedToken == null) throw WrongBearerTokenException();
 
-    return parsedToken.result!;
+    return parsedToken;
   }
 
   Future<Map<String, dynamic>> parseBody() async {
@@ -26,9 +26,35 @@ extension RequestExtension on Request {
     }
   }
 
-  bool validateBodyOrQueryParametersKeys(Map<String, dynamic> bodyOrQueryParams, List<String> keys) {
+  Future<Map<String, dynamic>> validatedBody(List<String> keys) async {
+    try {
+      final parsedBody = jsonDecode(await body());
+
+      bool isValidated = _validateBodyOrQueryParametersKeys(parsedBody, keys);
+
+      if (!isValidated) throw RepositoryException(ErrorCodes.instance.client.wrongBodyJson);
+
+      return parsedBody;
+    } catch (e) {
+      throw RepositoryException(ErrorCodes.instance.client.brokenJson);
+    }
+  }
+
+  Future<Map<String, dynamic>> validatedQueryParameters(List<String> keys) async {
+    try {
+      bool isValidated = _validateBodyOrQueryParametersKeys(uri.queryParameters, keys);
+
+      if (!isValidated) throw RepositoryException(ErrorCodes.instance.client.wrongQueryParameters);
+
+      return uri.queryParameters;
+    } catch (e) {
+      throw RepositoryException(ErrorCodes.instance.client.brokenJson);
+    }
+  }
+
+  bool _validateBodyOrQueryParametersKeys(Map<String, dynamic> bodyOrQueryParams, List<String> keys) {
     for (var key in keys) {
-      if (!bodyOrQueryParams.containsKey(key)) throw RepositoryException(ErrorCodes.instance.client.wrongJson);
+      if (!bodyOrQueryParams.containsKey(key)) throw RepositoryException(ErrorCodes.instance.client.wrongBodyJson);
     }
     return true;
   }

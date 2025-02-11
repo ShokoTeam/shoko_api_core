@@ -18,14 +18,6 @@ extension RequestExtension on Request {
     return parsedToken;
   }
 
-  Future<Map<String, dynamic>> parseBody() async {
-    try {
-      return jsonDecode(await body());
-    } catch (e) {
-      throw RepositoryException(ErrorCodes.instance.client.brokenJson);
-    }
-  }
-
   Future<Map<String, dynamic>> validatedBody(List<String> keys) async {
     try {
       final parsedBody = jsonDecode(await body());

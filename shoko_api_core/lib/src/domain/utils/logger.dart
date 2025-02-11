@@ -29,9 +29,6 @@ final class Logger {
   void e(Object? e, {StackTrace? stackTrace, int stackTraceLength = 7}) {
     final trace = stackTrace?.toString().split('\n').take(stackTraceLength).join('\n');
 
-    // if (e is PostgrestException) {
-    //   _log('[postgress-exception] ${e.toString()}', LogColors.error);
-    // } else
     if (e is Exception) {
       _log('[exception] $e\n[stacktrace] ${trace ?? ''}', LogColors.error);
     } else if (e is Error) {

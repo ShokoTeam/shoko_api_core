@@ -16,4 +16,4 @@ Supbase dart docs:
 
 
 Also check full docs for shoko_api_core:
-https://pub.dev/packages/shoko_api_core
+[shoko api core](https://pub.dev/packages/shoko_api_core)

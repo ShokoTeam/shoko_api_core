@@ -1,7 +1,7 @@
 name: shoko_api_core_supabase
 description: Extension for shoko_api_core to work with Supabase
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+version: 1.0.1
+repository: https://github.com/ShokoTeam/shoko_api_core
 
 environment:
   sdk: ^3.6.1

@@ -1,7 +1,7 @@
 name: shoko_api_core
 description: Package for fast create api with dart_frog
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+version: 1.0.1
+repository: https://github.com/ShokoTeam/shoko_api_core
 
 environment:
   sdk: ^3.6.1

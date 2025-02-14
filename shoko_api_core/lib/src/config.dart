@@ -6,7 +6,7 @@ final class Config {
   final String secret;
   final bool isDev;
 
-  void initialize(String secret, bool isDev) {
+  static void initialize(String secret, bool isDev) {
     _currentConfig = Config._(secret, isDev);
   }
 }

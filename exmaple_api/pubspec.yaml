@@ -1,0 +1,17 @@
+name: exmaple_api
+description: A new Dart Frog application
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  dart_frog: ^1.1.0
+  shoko_api_core:
+    path: ../shoko_api_core
+
+dev_dependencies:
+  mocktail: ^1.0.3
+  test: ^1.25.5
+  very_good_analysis: ^5.1.0

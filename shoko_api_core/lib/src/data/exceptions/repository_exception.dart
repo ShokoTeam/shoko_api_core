@@ -1,10 +1,10 @@
-import 'package:shoko_api_core/src/domain/utils/error_code.dart';
+import 'package:shoko_api_core/src/features/backend_responses/response_code.dart';
 
 class RepositoryException implements Exception {
-  const RepositoryException(this.errorCode);
+  const RepositoryException(this.code);
 
-  final ErrorCode errorCode;
+  final ResponseCode code;
 
   @override
-  String toString() => 'HttpCode: ${errorCode.httpCode} Code: ${errorCode.internalCode} Message: ${errorCode.message}';
+  String toString() => 'HttpCode: ${code.httpCode} Code: ${code.internalCode} Message: ${code.message}';
 }

@@ -1,7 +1,7 @@
 import 'package:dart_frog/dart_frog.dart';
-import 'package:shoko_api_core/src/data/exceptions/repository_exception.dart';
+import 'package:shoko_api_core/src/exceptions/repository_exception.dart';
 import 'package:shoko_api_core/src/domain/utils/logger.dart';
-import 'package:shoko_api_core/src/features/backend_responses/backend_error.dart';
+import 'package:shoko_api_core/src/backend_responses/backend_error.dart';
 
 abstract class RouteController {
   Future<Response> direct(Request request, {Map<String, dynamic>? dynamicRouteParams}) async {
@@ -22,15 +22,22 @@ abstract class RouteController {
 
       Logger.instance.e(this, stackTrace: st, stackTraceLength: 4);
 
-      return DefaultCodeResponses.instance.c5XX.c500.response;
+      return DefaultCodeResponses.c5XX.c500.response;
     }
   }
 
-  Future<Response> get(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
-  Future<Response> post(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
-  Future<Response> put(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
-  Future<Response> delete(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
-  Future<Response> head(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
-  Future<Response> options(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
-  Future<Response> patch(Request request, [Map<String, dynamic>? dynamicRouteParams]) async => DefaultCodeResponses.instance.c5XX.c501.response;
+  Future<Response> get(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
+  Future<Response> post(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
+  Future<Response> put(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
+  Future<Response> delete(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
+  Future<Response> head(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
+  Future<Response> options(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
+  Future<Response> patch(Request request, [Map<String, dynamic>? dynamicRouteParams]) async =>
+      DefaultCodeResponses.c5XX.c501.response;
 }

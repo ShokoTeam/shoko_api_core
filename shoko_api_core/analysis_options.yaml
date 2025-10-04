@@ -1,30 +1,186 @@
-# This file configures the static analysis results for your project (errors,
-# warnings, and lints).
-#
-# This enables the 'recommended' set of lints from `package:lints`.
-# This set helps identify many issues that may lead to problems when running
-# or consuming Dart code, and enforces writing Dart using a single, idiomatic
-# style and format.
-#
-# If you want a smaller set of lints you can change this to specify
-# 'package:lints/core.yaml'. These are just the most critical lints
-# (the recommended set includes the core lints).
-# The core lints are also what is used by pub.dev for scoring packages.
+include: package:flutter_lints/flutter.yaml
 
-include: package:lints/recommended.yaml
+analyzer:
+  strong-mode:
+    implicit-casts: false        # Запрещает неявное приведение типов (https://dart.dev/tools/linter-rules/implicit-casts)
+    implicit-dynamic: false      # Запрещает неявный тип `dynamic` (https://dart.dev/tools/linter-rules/implicit-dynamic)
 
-# Uncomment the following section to specify additional rules.
+  errors:
+    unused_element: info
+    unused_field: info
+    unused_local_variable: info
+    dead_code: info
+    empty_catches: warning
+    avoid_print: warning
+    unawaited_futures: warning
+    secure_pubspec_urls: error
+    unintended_html_in_doc_comment: ignore # некорретно работает, например для <T>
+    overridden_fields: ignore # для override базовых стилей
+    prefer_const_constructors: ignore # TODO вернуть позже (убрал т.к. затрудняет разработку из-за авто const)
 
-# linter:
-#   rules:
-#     - camel_case_types
+  plugins:
 
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gr.dart"
+    - "lib/generated/**"
+    - "lib/firebase_options.dart"
 
-# For more information about the core and recommended set of lints, see
-# https://dart.dev/go/core-lints
+linter:
+  rules:
+    ### Стиль кода и форматирование ###
+    camel_case_types: true                            # Имена типов в CamelCase (https://dart.dev/tools/linter-rules/camel_case_types)
+    file_names: true                                  # Имена файлов в snake_case (https://dart.dev/tools/linter-rules/file_names)
+    library_names: true                               # Имена библиотек в snake_case (https://dart.dev/tools/linter-rules/library_names)
+    constant_identifier_names: false                  # Константы в UPPER_CASE (https://dart.dev/tools/linter-rules/constant_identifier_names)
+    non_constant_identifier_names: true               # Не-константы в camelCase (https://dart.dev/tools/linter-rules/non_constant_identifier_names)
+    avoid_positional_boolean_parameters: false        # Избегать булевых параметров без имен (https://dart.dev/tools/linter-rules/avoid_positional_boolean_parameters)
+    prefer_final_fields: true                         # Предпочитать final для полей (https://dart.dev/tools/linter-rules/prefer_final_fields)
+    prefer_final_locals: false                        # Предпочитать final для локальных переменных (https://dart.dev/tools/linter-rules/prefer_final_locals)
+    prefer_const_constructors: true                   # Использовать const-конструкторы (https://dart.dev/tools/linter-rules/prefer_const_constructors)
+    prefer_const_declarations: true                   # Объявлять переменные как const (https://dart.dev/tools/linter-rules/prefer_const_declarations)
+    prefer_const_literals_to_create_immutables: true  # Использовать const для неизменяемых коллекций (https://dart.dev/tools/linter-rules/prefer_const_literals_to_create_immutables)
+    avoid_redundant_argument_values: true             # Избегать избыточных значений (например, `defaultValue: null`) (https://dart.dev/tools/linter-rules/avoid_redundant_argument_values)
+    avoid_escaping_inner_quotes: true                 # Избегать экранирования кавычек (https://dart.dev/tools/linter-rules/avoid_escaping_inner_quotes)
+    avoid_multiple_declarations_per_line: true        # Одна переменная на строку (https://dart.dev/tools/linter-rules/avoid_multiple_declarations_per_line)
+    prefer_single_quotes: true                        # Предпочитать одинарные кавычки (https://dart.dev/tools/linter-rules/prefer_single_quotes)
+    dangling_library_doc_comments: true               # Запрещать "висящие" документирующие комментарии (https://dart.dev/tools/linter-rules/dangling_library_doc_comments)
+    lines_longer_than_80_chars: false                 # Предупреждать о длинных строках (>80 символов) (https://dart.dev/tools/linter-rules/lines_longer_than_80_chars)
+    prefer_collection_literals: true                  # Использовать литералы коллекций ([] вместо List()) (https://dart.dev/tools/linter-rules/prefer_collection_literals)
+    prefer_if_null_operators: true                    # Использовать `??` вместо `ternary` с null (https://dart.dev/tools/linter-rules/prefer_if_null_operators)
+    prefer_spread_collections: true                   # Использовать spread (`...`) для добавления элементов (https://dart.dev/tools/linter-rules/prefer_spread_collections)
+    type_init_formals: true                           # Указывать тип в параметрах конструктора (https://dart.dev/tools/linter-rules/type_init_formals)
+    unnecessary_brace_in_string_interps: true         # Удалять лишние фигурные скобки в интерполяции (https://dart.dev/tools/linter-rules/unnecessary_brace_in_string_interps)
+    unnecessary_const: true                           # Удалять избыточный `const` (https://dart.dev/tools/linter-rules/unnecessary_const)
+    unnecessary_new: true                             # Удалять избыточный `new` (https://dart.dev/tools/linter-rules/unnecessary_new)
+    unnecessary_null_checks: true                     # Удалять избыточные проверки на null (https://dart.dev/tools/linter-rules/unnecessary_null_checks)
+    unnecessary_string_interpolations: true           # Удалять лишнюю интерполяцию строк (https://dart.dev/tools/linter-rules/unnecessary_string_interpolations)
+    unnecessary_this: true                            # Удалять избыточный `this.` (https://dart.dev/tools/linter-rules/unnecessary_this)
+    use_raw_strings: true                             # Использовать raw-строки (`r''`) для regex (https://dart.dev/tools/linter-rules/use_raw_strings)
+    require_trailing_commas: true                     # Требует запятые в конце параметров при многострочном вызове (https://dart.dev/tools/linter-rules/require_trailing_commas)
+    sort_constructors_first: true                     # Конструкторы должны располагаться перед методами (https://dart.dev/tools/linter-rules/sort_constructors_first)
+    sort_unnamed_constructors_first: true             # Безымянные конструкторы должны идти перед именованными (https://dart.dev/tools/linter-rules/sort_unnamed_constructors_first)
+    provide_deprecation_message: true                 # Предоставить сообщение об @Deprecated() (https://dart-dev.web.app/tools/linter-rules/provide_deprecation_message)
+    unintended_html_in_doc_comment: true              # Использование угловых скобок в комментариях к документу рассматривается Markdown как HTML (https://dart-dev.web.app/tools/linter-rules/unintended_html_in_doc_comment)
+    public_member_api_docs: false                      # Документирование публичных методов (https://dart-dev.web.app/tools/linter-rules/public_member_api_docs)
+    use_string_in_part_of_directives: true            # Использовать строку в части директив `part of` (https://dart-dev.web.app/tools/linter-rules/use_string_in_part_of_directives)
+    unnecessary_breaks: true                          # Не использовать лишние breaks (https://dart-dev.web.app/tools/linter-rules/unnecessary_breaks)
+    unnecessary_null_in_if_null_operators: true       # Избегайте использования null в операторах if null (https://dart-dev.web.app/tools/linter-rules/unnecessary_null_in_if_null_operators)
+    use_function_type_syntax_for_parameters: true     # Используйте синтаксис универсального типа функции для параметров (https://dart-dev.web.app/tools/linter-rules/use_function_type_syntax_for_parameters)
+    use_if_null_to_convert_nulls_to_bools: true       # Используйте операторы if-null для преобразования значений NULL в логические значения (https://dart-dev.web.app/tools/linter-rules/use_if_null_to_convert_nulls_to_bools)
+    use_late_for_private_fields_and_variables: true   # Используйте late для закрытых членов с типом, не допускающим значение NULL (https://dart-dev.web.app/tools/linter-rules/use_late_for_private_fields_and_variables)
+    use_to_and_as_if_applicable: true                 # Начните имя метода с to/_to или as/_as, если применимо (https://dart-dev.web.app/tools/linter-rules/use_to_and_as_if_applicable)
 
-# For additional information about configuring this file, see
-# https://dart.dev/guides/language/analysis-options
+    ### Ошибки и возможные баги ###
+    avoid_bool_literals_in_conditional_expressions: false # Избегать `condition ? true : false` (https://dart.dev/tools/linter-rules/avoid_bool_literals_in_conditional_expressions)
+    avoid_catches_without_on_clauses: false           # Указывать тип исключения в `catch` (https://dart.dev/tools/linter-rules/avoid_catches_without_on_clauses)
+    avoid_classes_with_only_static_members: false     # Избегать классов только со статическими методами (https://dart.dev/tools/linter-rules/avoid_classes_with_only_static_members)
+    avoid_double_and_int_checks: true                 # Использовать `is double` вместо `== double` (https://dart.dev/tools/linter-rules/avoid_double_and_int_checks)
+    avoid_empty_else: true                            # Избегать пустых `else` (https://dart.dev/tools/linter-rules/avoid_empty_else)
+    avoid_function_literals_in_foreach_calls: true    # Избегать анонимных функций в `forEach` (https://dart.dev/tools/linter-rules/avoid_function_literals_in_foreach_calls)
+    avoid_null_checks_in_equality_operators: true     # Не проверять `== null` в `==` (https://dart.dev/tools/linter-rules/avoid_null_checks_in_equality_operators)
+    avoid_renaming_method_parameters: true            # Не переименовывать параметры методов (https://dart.dev/tools/linter-rules/avoid_renaming_method_parameters)
+    avoid_return_types_on_setters: true               # Не указывать тип возврата у сеттеров (https://dart.dev/tools/linter-rules/avoid_return_types_on_setters)
+    avoid_shadowing_type_parameters: true             # Избегать затенения generic-параметров (https://dart.dev/tools/linter-rules/avoid_shadowing_type_parameters)
+    avoid_single_cascade_in_expression_statements: true # Избегать каскадов (`..`) из одного элемента (https://dart.dev/tools/linter-rules/avoid_single_cascade_in_expression_statements)
+    avoid_type_to_string: true                        # Избегать `toString()` для типов (https://dart.dev/tools/linter-rules/avoid_type_to_string)
+    avoid_unnecessary_containers: true                # Избегать лишних `Container` (https://dart.dev/tools/linter-rules/avoid_unnecessary_containers)
+    avoid_void_async: true                            # Избегать `void` с `async` (https://dart.dev/tools/linter-rules/avoid_void_async)
+    await_only_futures: true                          # Использовать `await` только с `Future` (https://dart.dev/tools/linter-rules/await_only_futures)
+    curly_braces_in_flow_control_structures: true     # Фигурные скобки для `if/for` (https://dart.dev/tools/linter-rules/curly_braces_in_flow_control_structures)
+    empty_catches: true                               # Запрещать пустые `catch` (https://dart.dev/tools/linter-rules/empty_catches)
+    empty_constructor_bodies: true                    # Запрещать пустые тела конструкторов (https://dart.dev/tools/linter-rules/empty_constructor_bodies)
+    invariant_booleans: true                          # Запрещать условия, которые всегда `true/false` (https://dart.dev/tools/linter-rules/invariant_booleans)
+    literal_only_boolean_expressions: true            # Запрещать `if (true)` (https://dart.dev/tools/linter-rules/literal_only_boolean_expressions)
+    no_adjacent_strings_in_list: true                 # Запрещать смежные строки в списках (https://dart.dev/tools/linter-rules/no_adjacent_strings_in_list)
+    no_duplicate_case_values: true                    # Запрещать дубликаты в `case` (https://dart.dev/tools/linter-rules/no_duplicate_case_values)
+    null_check_on_nullable_type_parameter: true       # Запрещать `!` для generic-типов (https://dart.dev/tools/linter-rules/null_check_on_nullable_type_parameter)
+    prefer_asserts_in_initializer_lists: true         # Использовать `assert` в инициализаторах (https://dart.dev/tools/linter-rules/prefer_asserts_in_initializer_lists)
+    prefer_is_empty: true                             # Использовать `isEmpty` вместо `length == 0` (https://dart.dev/tools/linter-rules/prefer_is_empty)
+    prefer_is_not_empty: true                         # Использовать `isNotEmpty` вместо `length > 0` (https://dart.dev/tools/linter-rules/prefer_is_not_empty)
+    prefer_null_aware_operators: true                 # Использовать `?.` вместо проверок на null (https://dart.dev/tools/linter-rules/prefer_null_aware_operators)
+    prefer_typing_uninitialized_variables: true       # Указывать тип для неинициализированных переменных (https://dart.dev/tools/linter-rules/prefer_typing_uninitialized_variables)
+    recursive_getters: true                           # Запрещать рекурсивные геттеры (https://dart.dev/tools/linter-rules/recursive_getters)
+    slash_for_doc_comments: true                      # Использовать `///` для документации (https://dart.dev/tools/linter-rules/slash_for_doc_comments)
+    sort_child_properties_last: true                  # Сортировать свойства `child` в конце (https://dart.dev/tools/linter-rules/sort_child_properties_last)
+    test_types_in_equals: true                        # Проверять типы в `==` (https://dart.dev/tools/linter-rules/test_types_in_equals)
+    throw_in_finally: true                            # Запрещать `throw` в `finally` (https://dart.dev/tools/linter-rules/throw_in_finally)
+    unawaited_futures: true                           # Запрещать неожиданные `Future` без `await` (https://dart.dev/tools/linter-rules/unawaited_futures)
+    unnecessary_late: true                            # Запрещать избыточный `late` (https://dart.dev/tools/linter-rules/unnecessary_late)
+    unnecessary_nullable_for_final_variable_declarations: true # Запрещать `?` для `final` переменных (https://dart.dev/tools/linter-rules/unnecessary_nullable_for_final_variable_declarations)
+    use_build_context_synchronously: true             # Запрещать `BuildContext` в асинхронных методах (https://dart.dev/tools/linter-rules/use_build_context_synchronously)
+    use_rethrow_when_possible: true                   # Использовать `rethrow` вместо `throw e` (https://dart.dev/tools/linter-rules/use_rethrow_when_possible)
+    valid_regexps: true                               # Проверять валидность regex (https://dart.dev/tools/linter-rules/valid_regexps)
+    avoid_types_as_parameter_names: true              # Избегать использование имени параметра, совпадающего с существующим типом. (https://dart-dev.web.app/tools/linter-rules/avoid_types_as_parameter_names)
+    camel_case_extensions: true                       # Использовать camel case для extensions (https://dart-dev.web.app/tools/linter-rules/camel_case_extensions)
+    collection_methods_unrelated_type: true           # Запрещать вызов методов коллекций с неподходящими типами (https://dart.dev/tools/linter-rules/collection_methods_unrelated_type)
+    hash_and_equals: true                             # Обязательно переопределять `hashCode`, если переопределён `==` (https://dart.dev/tools/linter-rules/hash_and_equals)
+    implicit_call_tearoffs: true                      # Предпочитать `obj.call` вместо `obj.call()` при передаче функции (https://dart.dev/tools/linter-rules/implicit_call_tearoffs)
+    library_annotations: true                         # Указывать аннотацию `@internal` для внутренних библиотек пакета (https://dart.dev/tools/linter-rules/library_annotations)
+    no_wildcard_variable_uses: true                   # Запрещать использование `_` как переменной (https://dart.dev/tools/linter-rules/no_wildcard_variable_uses)
+    prefer_iterable_whereType: true                   # Использовать `whereType<T>()` вместо фильтрации с `is T` и кастом (https://dart.dev/tools/linter-rules/prefer_iterable_whereType)
+    unrelated_type_equality_checks: true              # Предупреждать о сравнении объектов разных типов (https://dart.dev/tools/linter-rules/unrelated_type_equality_checks)
+    type_annotate_public_apis: true                   # Указывать тип аннотации публичных API (https://dart.dev/tools/linter-rules/type_annotate_public_apis)
+
+    ### Flutter-специфичные правила ###
+    always_declare_return_types: true                 # Всегда указывать тип возврата (https://dart.dev/tools/linter-rules/always_declare_return_types)
+    always_put_control_body_on_new_line: false        # Переносить тело `if/for` на новую строку (https://dart.dev/tools/linter-rules/always_put_control_body_on_new_line)
+    always_put_required_named_parameters_first: true  # `required` параметры должны быть первыми (https://dart.dev/tools/linter-rules/always_put_required_named_parameters_first)
+    annotate_overrides: true                          # Добавлять `@override` (https://dart.dev/tools/linter-rules/annotate_overrides)
+    avoid_dynamic_calls: false                        # Избегать `dynamic` вызовов (https://dart.dev/tools/linter-rules/avoid_dynamic_calls)
+    avoid_print: true                                 # Запрещать `print()` (использовать `logger`) (https://dart.dev/tools/linter-rules/avoid_print)
+    avoid_web_libraries_in_flutter: true              # Запрещать Web-специфичные библиотеки (https://dart.dev/tools/linter-rules/avoid_web_libraries_in_flutter)
+    cancel_subscriptions: true                        # Отменять `StreamSubscription` (https://dart.dev/tools/linter-rules/cancel_subscriptions)
+    close_sinks: true                                 # Закрывать `StreamController` (https://dart.dev/tools/linter-rules/close_sinks)
+    comment_references: true                          # Проверять ссылки в комментариях (https://dart.dev/tools/linter-rules/comment_references)
+    directives_ordering: true                         # Сортировать импорты (https://dart.dev/tools/linter-rules/directives_ordering)
+    sized_box_shrink_expand: true                     # Используйте именованные конструкторы сжатия и расширения SizeBox (https://dart.dev/tools/linter-rules/sized_box_shrink_expand)
+    flutter_style_todos: false                        # Форматировать `TODO:` (https://dart.dev/tools/linter-rules/flutter_style_todos)
+    implementation_imports: true                      # Запрещать импорты `src/` (https://dart.dev/tools/linter-rules/implementation_imports)
+    join_return_with_assignment: true                 # Объединять `return` с присваиванием (https://dart.dev/tools/linter-rules/join_return_with_assignment)
+    library_prefixes: true                            # Использовать префиксы для импортов (https://dart.dev/tools/linter-rules/library_prefixes)
+    no_runtimeType_toString: true                     # Запрещать `runtimeType.toString()` (https://dart.dev/tools/linter-rules/no_runtimeType_toString)
+    only_throw_errors: false                          # Бросать только `Error`/`Exception` (https://dart.dev/tools/linter-rules/only_throw_errors)
+    overridden_fields: true                           # Запрещать переопределение полей (https://dart.dev/tools/linter-rules/overridden_fields)
+    package_api_docs: true                            # Требовать документацию для публичных API (https://dart.dev/tools/linter-rules/package_api_docs)
+    package_names: true                               # Имена пакетов в lowercase (https://dart.dev/tools/linter-rules/package_names)
+    package_prefixed_library_names: true              # Префикс библиотек как имя пакета (https://dart.dev/tools/linter-rules/package_prefixed_library_names)
+    parameter_assignments: true                       # Запрещать присваивание параметрам (https://dart.dev/tools/linter-rules/parameter_assignments)
+    prefer_adjacent_string_concatenation: true        # Объединять смежные строки (https://dart.dev/tools/linter-rules/prefer_adjacent_string_concatenation)
+    prefer_conditional_assignment: true               # Использовать `??=` (https://dart.dev/tools/linter-rules/prefer_conditional_assignment)
+    prefer_constructors_over_static_methods: true     # Предпочитать конструкторы статическим методам (https://dart.dev/tools/linter-rules/prefer_constructors_over_static_methods)
+    prefer_equal_for_default_values: true             # Использовать `=` для значений по умолчанию (https://dart.dev/tools/linter-rules/prefer_equal_for_default_values)
+    prefer_final_parameters: true                     # Предпочитать `final` параметры (https://dart.dev/tools/linter-rules/prefer_final_parameters)
+    prefer_foreach: false                             # Предпочитать `for-in` вместо `forEach` (https://dart.dev/tools/linter-rules/prefer_foreach)
+    prefer_generic_function_type_aliases: true        # Использовать generic-типы для `typedef` (https://dart.dev/tools/linter-rules/prefer_generic_function_type_aliases)
+    prefer_inlined_adds: true                         # Использовать `[...a, b]` вместо `a + [b]` (https://dart.dev/tools/linter-rules/prefer_inlined_adds)
+    prefer_interpolation_to_compose_strings: true     # Использовать интерполяцию вместо конкатенации (https://dart.dev/tools/linter-rules/prefer_interpolation_to_compose_strings)
+    prefer_mixin: true                                # Использовать `mixin` вместо `class` (https://dart.dev/tools/linter-rules/prefer_mixin)
+    prefer_null_aware_method_calls: true              # Использовать `?.method()` (https://dart.dev/tools/linter-rules/prefer_null_aware_method_calls)
+    sized_box_for_whitespace: true                    # Использовать `SizedBox` вместо `Container` для отступов (https://dart.dev/tools/linter-rules/sized_box_for_whitespace)
+    super_goes_last: false                            # `super()` должен быть последним (https://dart.dev/tools/linter-rules/super_goes_last)
+    tighten_type_of_initializing_formals: true        # Уточнять типы параметров конструктора (https://dart.dev/tools/linter-rules/tighten_type_of_initializing_formals)
+    type_literal_in_constant_pattern: true            # Запрещать `Type` в const-контекстах (https://dart.dev/tools/linter-rules/type_literal_in_constant_pattern)
+    unnecessary_getters_setters: false                # Удалять избыточные геттеры/сеттеры (https://dart.dev/tools/linter-rules/unnecessary_getters_setters)
+    unnecessary_lambdas: true                         # Запрещать лишние лямбды (https://dart.dev/tools/linter-rules/unnecessary_lambdas)
+    unnecessary_overrides: true                       # Запрещать избыточные `@override` (https://dart.dev/tools/linter-rules/unnecessary_overrides)
+    unnecessary_parenthesis: true                     # Удалять лишние скобки (https://dart.dev/tools/linter-rules/unnecessary_parenthesis)
+    unnecessary_statements: true                      # Запрещать бесполезные выражения (https://dart.dev/tools/linter-rules/unnecessary_statements)
+    use_full_hex_values_for_flutter_colors: true      # Использовать полные HEX (`0xFF000000`) (https://dart.dev/tools/linter-rules/use_full_hex_values_for_flutter_colors)
+    use_key_in_widget_constructors: true              # Требовать `Key` в виджетах (https://dart.dev/tools/linter-rules/use_key_in_widget_constructors)
+    use_named_constants: true                         # Использовать именованные константы (https://dart.dev/tools/linter-rules/use_named_constants)
+    use_setters_to_change_properties: true            # Использовать сеттеры вместо методов (https://dart.dev/tools/linter-rules/use_setters_to_change_properties)
+    use_string_buffers: true                          # Использовать `StringBuffer` для конкатенации в циклах (https://dart.dev/tools/linter-rules/use_string_buffers)
+    use_super_parameters: true                        # Использовать `super.` в конструкторах (https://dart.dev/tools/linter-rules/use_super_parameters)
+    void_checks: true                                 # Запрещать `void` в `is`/`as` (https://dart.dev/tools/linter-rules/void_checks)
+    secure_pubspec_urls: true                         # Используйте безопасные URL-адреса (https://dart.dev/tools/linter-rules/secure_pubspec_urls)
+    no_default_cases: false                           # Запрещать `default` в `switch` (https://pub.dev/packages/no_default_cases)
+    prefer_void_to_null: true                         # Использовать `void` вместо `Null` (https://pub.dev/packages/prefer_void_to_null)
+    use_colored_box: true                             # Использовать ColoredBox, если в контейнере есть только цвет (https://pub.dev/packages/use_colored_box)
+    use_decorated_box: true                           # Использовать DecoratedBox, если в контейнере есть только декораторы (https://pub.dev/packages/use_decorated_box)
+    use_enums: true                                   # Использовать enums (https://pub.dev/packages/use_enums)
+
+    ### Обязательно для мобильных приложений (Стран), для пакетов выключено ###
+    depend_on_referenced_packages: false               # Явно указывать зависимости в `pubspec.yaml`, если они используются в коде (https://dart.dev/tools/linter-rules/depend_on_referenced_packages)
+    avoid_relative_lib_imports: false                  # Избегать относительных импортов (`../lib/`) (https://dart.dev/tools/linter-rules/avoid_relative_lib_imports)

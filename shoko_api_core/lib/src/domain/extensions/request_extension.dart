@@ -1,56 +1,54 @@
 import 'dart:convert';
 
-import 'package:bearer_token_package/bearer_token.dart';
-import 'package:dart_frog/dart_frog.dart';
-import 'package:shoko_api_core/src/config.dart';
-import 'package:shoko_api_core/src/data/exceptions/repository_exception.dart';
-import 'package:shoko_api_core/src/features/backend_responses/backend_error.dart';
+import 'package:shoko_api_core/shoko_api_core.dart';
+import 'package:shoko_api_core/src/backend_responses/backend_error.dart';
 
 extension RequestExtension on Request {
-  String get userId {
-    final token = headers['Authorization']?.replaceAll('Bearer ', '') ?? "";
+  ///Checking if all required keys are present in the request body
+  Future<Map<String, dynamic>> validateBodyByKeys(final List<String> keys) async {
+    final code400 = DefaultCodeResponses.c4XX.c400;
 
-    final parsedToken = BearerToken.getData(token, Config.instance.secret).result;
-
-    if (parsedToken == null) throw DefaultCodeResponses.instance.c4XX.c403;
-
-    return parsedToken;
-  }
-
-  Future<Map<String, dynamic>> validatedBody(List<String> keys) async {
-    final code400 = DefaultCodeResponses.instance.c4XX.c400;
     try {
       final parsedBody = jsonDecode(await body());
 
       bool isValidated = _validateBodyOrQueryParametersKeys(parsedBody, keys);
 
       if (!isValidated) {
-        throw RepositoryException(code400.copyWith(message: 'Wrong body json'));
+        throw RepositoryException(code400.copyWith(message: 'Not valid request body'));
       }
 
       return parsedBody;
-    } catch (e) {
-      throw RepositoryException(code400.copyWith(message: 'Broken json'));
+    } catch (e, st) {
+      Logger.instance.e(e, stackTrace: st);
+
+      throw RepositoryException(
+          code400.copyWith(message: 'An error occurred while validating the body.'));
     }
   }
 
-  Future<Map<String, dynamic>> validatedQueryParameters(List<String> keys) async {
-    final code400 = DefaultCodeResponses.instance.c4XX.c400;
+  ///Checking if all required keys are present in the request query parameters
+  Future<Map<String, dynamic>> validatedQueryParametersByKeys(final List<String> keys) async {
+    final code400 = DefaultCodeResponses.c4XX.c400;
     try {
       bool isValidated = _validateBodyOrQueryParametersKeys(uri.queryParameters, keys);
 
       if (!isValidated) {
-        throw RepositoryException(code400.copyWith(message: 'Wrong query parameters'));
+        throw RepositoryException(code400.copyWith(message: 'Not valid request query parameters'));
       }
       return uri.queryParameters;
-    } catch (e) {
-      throw RepositoryException(code400.copyWith(message: 'Broken json'));
+    } catch (e, st) {
+      Logger.instance.e(e, stackTrace: st);
+
+      throw RepositoryException(
+          code400.copyWith(message: 'An error occurred while validating the query parameters.'));
     }
   }
 
-  bool _validateBodyOrQueryParametersKeys(Map<String, dynamic> bodyOrQueryParams, List<String> keys) {
+  ///Method for checking for the presence of keys in the data received in the request
+  ///If the key is not found, we immediately return false, since the data is considered invalid.
+  bool _validateBodyOrQueryParametersKeys(Map<String, dynamic> requestData, List<String> keys) {
     for (var key in keys) {
-      if (!bodyOrQueryParams.containsKey(key)) return false;
+      if (!requestData.containsKey(key)) return false;
     }
     return true;
   }

@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_print
+
+import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:dart_frog/dart_frog.dart';
 
@@ -18,15 +21,15 @@ final class Logger {
   Logger._();
   static Logger instance = Logger._();
 
-  void _log(String msg, LogColors logColor) {
+  void _log(final String msg, final LogColors logColor) {
     // final now = DateTime.now();
-    final out = msg.split('\n').map((l) => '\x1B[${logColor.colorCode}m$l\x1B[0m').join('\n');
+    final out = msg.split('\n').map((final l) => '\x1B[${logColor.colorCode}m$l\x1B[0m').join('\n');
 
     developer.log(out);
     print(out);
   }
 
-  void e(Object? e, {StackTrace? stackTrace, int stackTraceLength = 7}) {
+  void e(final Object? e, {final StackTrace? stackTrace, final int stackTraceLength = 7}) {
     final trace = stackTrace?.toString().split('\n').take(stackTraceLength).join('\n');
 
     if (e is Exception) {
@@ -43,10 +46,11 @@ final class Logger {
     }
   }
 
-  Future _request(Request request, DateTime inTime) async {
+  Future _request(final Request request, final DateTime inTime) async {
     final body = await request.body();
 
-    _log('========================================================================================', LogColors.message);
+    _log('========================================================================================',
+        LogColors.message);
     _log(
       '[request] $inTime [${request.method.name.toUpperCase()}] ${request.uri.path}${request.uri.query == '' ? '' : '?${request.uri.query}'}',
       LogColors.notification,
@@ -54,12 +58,12 @@ final class Logger {
     if (body.isNotEmpty) _log('[body] $body', LogColors.notification);
   }
 
-  void _response(Response response, Duration elapsed) async {
+  Future<void> _response(final Response response, final Duration elapsed) async {
     _log('[response] ${elapsed.toString()} [${response.statusCode}] ', LogColors.success);
   }
 
-  Handler logRequest(Handler handler) {
-    return (context) async {
+  Handler logRequest(final Handler handler) {
+    return (final context) async {
       final now = DateTime.now();
       final stopwatch = Stopwatch();
 
@@ -69,7 +73,7 @@ final class Logger {
       final response = await handler(context);
       stopwatch.stop();
 
-      _response(response, stopwatch.elapsed);
+      unawaited(_response(response, stopwatch.elapsed));
 
       return response;
     };

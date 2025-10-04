@@ -22,7 +22,8 @@ extension RequestExtension on Request {
       Logger.instance.e(e, stackTrace: st);
 
       throw RepositoryException(
-          code400.copyWith(message: 'An error occurred while validating the body.'));
+        code400.copyWith(message: 'An error occurred while validating the body.'),
+      );
     }
   }
 
@@ -40,13 +41,17 @@ extension RequestExtension on Request {
       Logger.instance.e(e, stackTrace: st);
 
       throw RepositoryException(
-          code400.copyWith(message: 'An error occurred while validating the query parameters.'));
+        code400.copyWith(message: 'An error occurred while validating the query parameters.'),
+      );
     }
   }
 
   ///Method for checking for the presence of keys in the data received in the request
   ///If the key is not found, we immediately return false, since the data is considered invalid.
-  bool _validateBodyOrQueryParametersKeys(Map<String, dynamic> requestData, List<String> keys) {
+  bool _validateBodyOrQueryParametersKeys(
+    final Map<String, dynamic> requestData,
+    final List<String> keys,
+  ) {
     for (var key in keys) {
       if (!requestData.containsKey(key)) return false;
     }

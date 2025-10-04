@@ -4,7 +4,7 @@ version: 1.0.3
 repository: https://github.com/ShokoTeam/shoko_api_core
 
 environment:
-  sdk: ">=3.9.2"
+  sdk: ^3.9.2
 
 dependencies:
   dart_frog: ^1.2.4

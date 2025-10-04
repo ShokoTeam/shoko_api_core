@@ -6,5 +6,5 @@ abstract class BackendCodeResponses {
     throw UnimplementedError();
   }
 
-  ResponseCode customCode(ResponseCode custom) => custom;
+  ResponseCode customCode(final ResponseCode custom) => custom;
 }
